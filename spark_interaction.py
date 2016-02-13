@@ -35,15 +35,12 @@ class SparkInteraction:
         return room_title
 
     def create_room(self):
-    #   WORKING
+        #   WORKING
         room = requests.post(SparkStatics['SPARK_URL'],
-            headers={'Authorization':SparkStatics['SPARK_TOKEN'], 'content-type':'application/json'},
-            json={'title': self._create_room_title()})
+                             headers={'Authorization': SparkStatics['SPARK_TOKEN'], 'content-type': 'application/json'},
+                             json={'title': self._create_room_title()})
         room_data = room.json()
-    #   WORKING
-        #room_data = {'created': '2016-02-13T23:21:12.234Z',
-        #             'id': 'Y2lzY29zcGFyazovL3VzL1JPT00vNzg3YjE4YTAtZDJhOC0xMWU1LWJmNGQtNTM5NzE4N2NkZGYy',
-        #             'title': 'Spark Conference to address issue: CVE-2016-0021'}
+        #   WORKING
         return room_data['id']
 
     # {
@@ -53,7 +50,7 @@ class SparkInteraction:
 psirt = {'ID': "CVE-2016-0021",
          'URI': "https://cisco.com/alles_ganz_doll_kaputt",
          'SYSTEM': 'Cisco ASA 55x5'
-}
+         }
 test = SparkInteraction(psirt)
 spark_room = test.create_room()
 print(spark_room)
