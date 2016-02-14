@@ -1,3 +1,3 @@
 def kacktoken():
-    kacktokenvalue="u3RWUZZAGofcSR8Ufgm8XM1Ggj61"
+    kacktokenvalue="Zg2lR0PeCM5Aelwwgal4Opl7p7Gj"
     return kacktokenvalue
