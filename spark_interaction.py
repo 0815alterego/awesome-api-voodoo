@@ -28,11 +28,11 @@ class SparkInteraction:
                 SYSTEM = affected Systems
         """
         self.bug_notification = bug_notification
-        self.room_id = None
+        self.room_id = "Not Created"
         pass
 
     def __str__(self):
-        return (self.room_id)
+        return self.room_id
 
     def _create_room_title(self):
         """
@@ -56,10 +56,7 @@ class SparkInteraction:
 
     def delete_room(self):
         """
-            removes a room from Spark with room_id
-        Args:
-            room_id: Spark ID for room
-
+            removes a room from Spark with self.room_id
         Returns:
             Status Code of Room - if OK 204
         """
@@ -69,15 +66,14 @@ class SparkInteraction:
                                )
         return room.status_code
 
-    def invite_users_to_room(self,user_id_list):
+    def invite_users_to_room(self, user_id_list):
         for user_id in user_id_list:
-            invite= requests.post(SparkStatics['SPARK_URL']+"memberships",
-                                  headers={'Authorization': SparkStatics['SPARK_TOKEN'],
-                                           'content-type': 'application/json'},
-                                  json={'roomId': self.room_id,
-                                        'personEmail': DB_Data.User_ID[user_id]['mail'],
-                                        'isModerator': False})
-
+            requests.post(SparkStatics['SPARK_URL']+"memberships",
+                          headers={'Authorization': SparkStatics['SPARK_TOKEN'],
+                                   'content-type': 'application/json'},
+                          json={'roomId': self.room_id,
+                                'personEmail': DB_Data.User_ID[user_id]['mail'],
+                                'isModerator': False})
 
 
 psirt = {'ID': "CVE-2016-0021",
@@ -86,13 +82,10 @@ psirt = {'ID': "CVE-2016-0021",
          }
 # Testing Stuff
 test = SparkInteraction(psirt)
-spark_room = test.create_room()
+test.create_room()
 print(test)
 
 call_participants = DB_Data.Device_type[psirt['SYSTEM']]
 test.invite_users_to_room(call_participants)
-#status = test.delete_room()
-#print(SparkCodes[status])
-
-# #for call_participant in call_participants:
-#    print(DB_Data.User_ID[call_participant])
+#   status = test.delete_room()
+#   print(SparkCodes[status])
