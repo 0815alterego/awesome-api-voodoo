@@ -40,7 +40,7 @@ class SparkInteraction:
         Returns:
             final Room Title
         """
-        room_title = "Spark Conference to address issue: " + self.bug_notification['ID']
+        room_title = self.bug_notification['ID']+" - Spark Conference"
 
         return room_title
 
@@ -50,7 +50,8 @@ class SparkInteraction:
         room = requests.post(SparkStatics['SPARK_URL']+"rooms",
                              headers={'Authorization': SparkStatics['SPARK_TOKEN'], 'content-type': 'application/json'},
                              json={'title': self._create_room_title()})
-        self.room_id = room.json()
+        self.room_id = room.json()['id']
+
         #   WORKING
 
     def delete_room(self):
@@ -74,10 +75,8 @@ class SparkInteraction:
                                   headers={'Authorization': SparkStatics['SPARK_TOKEN'],
                                            'content-type': 'application/json'},
                                   json={'roomId': self.room_id,
-                                        'personEmail':DB_Data.User_ID[user_id],
-                                        'isModerator':False}
-                               )
-
+                                        'personEmail': DB_Data.User_ID[user_id]['mail'],
+                                        'isModerator': False})
 
 
 
@@ -87,12 +86,13 @@ psirt = {'ID': "CVE-2016-0021",
          }
 # Testing Stuff
 test = SparkInteraction(psirt)
-#spark_room = test.create_room()
-#print(test)
-#status = test.delete_room()
-#print(SparkCodes[status])
+spark_room = test.create_room()
+print(test)
+
 call_participants = DB_Data.Device_type[psirt['SYSTEM']]
 test.invite_users_to_room(call_participants)
+#status = test.delete_room()
+#print(SparkCodes[status])
 
-#for call_participant in call_participants:
+# #for call_participant in call_participants:
 #    print(DB_Data.User_ID[call_participant])
