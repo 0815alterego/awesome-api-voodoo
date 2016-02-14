@@ -54,6 +54,14 @@ class SparkInteraction:
 
         #   WORKING
 
+    # TODO: Clean delete room
+    #def get_membership_in_room(self):
+    #    members_list = requests.get(SparkStatics['SPARK_URL']+"memberships",
+    #                                headers={'Authorization': SparkStatics['SPARK_TOKEN'],
+    #                               '        content-type': 'application/json'},
+    #                                json={}
+
+
     def delete_room(self):
         """
             removes a room from Spark with self.room_id
