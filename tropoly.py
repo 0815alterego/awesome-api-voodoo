@@ -11,4 +11,4 @@ def place_sms(number,name,psirt):
     call = requests.get(full_url,headers={'content-type':'application/x-www-form-urlencoded'})
     print(call.status_code,call.content)
 
-#place_sms('+49151xxxxx','Michael Dombek','CVE-2012-111')
+#place_sms('+49####','Michael Dombek','CVE-2012-111')
