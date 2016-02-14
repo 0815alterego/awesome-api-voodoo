@@ -3,6 +3,8 @@
 #
 #   notes
 #   https://api.ciscospark.com/v1/rooms
+# TODO : Add link to room
+# TODO : docs and cleanup
 import requests
 import DB_Data
 import tropoly
