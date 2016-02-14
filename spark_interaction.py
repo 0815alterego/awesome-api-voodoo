@@ -5,6 +5,7 @@
 #   https://api.ciscospark.com/v1/rooms
 import requests
 import DB_Data
+import tropoly
 
 SparkStatics = {
     'SPARK_URL': "https://api.ciscospark.com/v1/",
@@ -12,7 +13,7 @@ SparkStatics = {
 }
 SparkCodes = {
     204: "Room successfully deleted",
-    200: "Action successfully commited"
+    200: "Action successfully comited"
 }
 
 
@@ -51,7 +52,10 @@ class SparkInteraction:
                              headers={'Authorization': SparkStatics['SPARK_TOKEN'], 'content-type': 'application/json'},
                              json={'title': self._create_room_title()})
         self.room_id = room.json()['id']
-
+        call_participants = DB_Data.Device_type[self.bug_notification['SYSTEM']]
+        self.invite_users_to_room(call_participants)
+        for user in call_participants:
+            tropoly.place_sms(user,self.bug_notification['ID'])
         #   WORKING
 
     # TODO: Clean delete room
@@ -84,11 +88,13 @@ class SparkInteraction:
                                 'isModerator': False})
 
 
+"""
 psirt = {'ID': "CVE-2016-0021",
          'URI': "https://cisco.com/alles_ganz_doll_kaputt",
          'SYSTEM': 'ASA'
          }
 # Testing Stuff
+#
 test = SparkInteraction(psirt)
 test.create_room()
 print(test)
@@ -97,3 +103,4 @@ call_participants = DB_Data.Device_type[psirt['SYSTEM']]
 test.invite_users_to_room(call_participants)
 #   status = test.delete_room()
 #   print(SparkCodes[status])
+"""

@@ -2,6 +2,8 @@ import requests
 import kacktoken
 import xml.etree.ElementTree as et
 from datetime import datetime, timedelta
+import spark_interaction
+
 # returns a dictionary with two keys and two values
 # first key: CVE number
 # second key: CVE url
@@ -44,8 +46,13 @@ def getdata():
                         match=True
                         alert_product=device
             if match:
-                print(cve_ids[i].text,alert_product,alert_url.text)
-        #print(details.content, details.status_code)
+                #ID = Cisco Advisory ID of BUG
+                #URI    = BUG description URL
+                #SYSTEM = affected Systems
+                spark_data={'ID':cve_ids[i].text,'URI':alert_url.text,'SYSTEM':alert_product}
+                new_call=spark_interaction.SparkInteraction(spark_data)
+                new_call.create_room()
+
         length = length-1
 
 getdata()
